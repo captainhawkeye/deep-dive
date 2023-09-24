@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: build-agent
+  namespace: agent
+  labels:
+    app: build-agent
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 5
+  selector:
+    matchLabels:
+      app: build-agent
+  serviceName: build-agent
+  template:
+    metadata:
+      labels:
+        app: build-agent
+    spec:
+      containers:
+        - name: build-agent
+          image: acr-dockerhub/main:buildagent-v1
+          imagePullPolicy: Always
+          env:
+            - name: AZP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: agentsecrets
+                  key: AZP_URL
+            - name: AZP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: agentsecrets
+                  key: AZP_TOKEN
+            - name: AZP_POOL
+              valueFrom:
+                secretKeyRef:
+                  name: agentsecrets
+                  key: AZP_POOL
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-volume
+      volumes:
+        - name: docker-volume
+          hostPath:
+            path: /var/run/docker.sock
+      imagePullSecrets:
+        - name: fetch
