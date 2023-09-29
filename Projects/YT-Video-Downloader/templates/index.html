@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Video Downloader</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 500px;
+            margin-top: 50px;
+        }
+
+        .jumbotron {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animated {
+            animation: fadeIn 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">YouTube Video Downloader</h1>
+        </div>
+        <div class="animated">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="video_url">Enter Video URL:</label>
+                    <input type="text" class="form-control" id="video_url" name="video_url" required>
+                </div>
+                <button type="submit" class="btn btn-primary download-button">Download</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
