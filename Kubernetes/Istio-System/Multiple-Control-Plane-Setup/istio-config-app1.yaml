@@ -1,0 +1,33 @@
+##-----Istio System Configuration-----##
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-system-app-1
+  namespace: istio-app-1
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway-app-1
+      enabled: true
+      k8s:
+        serviceAnnotations:
+          service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  revision: istio-app-1
+  meshConfig:
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+    enableAutoMtls: true
+    certificates:
+    - secretName: <any-secret-name>
+      dnsNames: [any-dns-name]
+    discoverySelectors:
+      - matchLabels:
+          release: istio-app-1
+  values:
+    global:
+      istioNamespace: istio-app-1
+      mountMtlsCerts: true
+    pilot:
+      env:
+        ENABLE_ENHANCED_RESOURCE_SCOPING: true
