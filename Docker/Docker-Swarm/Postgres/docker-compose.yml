@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  postgres-server:
+    image: postgres
+    container_name: postgres-server-docker-swarm
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - pg-network
+    environment:
+      POSTGRES_USER: anuragpoc
+      POSTGRES_PASSWORD: anuragpoc1@
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4-instance-docker-swarm
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: abc@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: anuragpoc1@
+    networks:
+      - pg-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
+
+networks:
+  pg-network:

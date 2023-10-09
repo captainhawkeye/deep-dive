@@ -47,7 +47,7 @@ spec:
             - name: DB_USER
               value: anuragpoc
             - name: DB_PASSWORD
-              value: anuragpoc1@
+              value: "anuragpoc1@"
             - name: KEYCLOAK_ADMIN
               value: "admin"
             - name: KEYCLOAK_ADMIN_PASSWORD

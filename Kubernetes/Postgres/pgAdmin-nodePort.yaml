@@ -9,7 +9,7 @@ spec:
     app: pgadmin
   ports:
     - protocol: TCP
-      port: 80
+      port: 8888
       targetPort: 80
 ---
 apiVersion: apps/v1
@@ -36,4 +36,4 @@ spec:
             - name: PGADMIN_DEFAULT_PASSWORD
               value: anuragpoc1@
           ports:
-            - containerPort: 80
+            - containerPort: 8888
