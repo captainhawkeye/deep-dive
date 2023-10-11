@@ -1,0 +1,50 @@
+trigger:
+- none
+
+pool:
+ name: agent-pool
+
+parameters:
+- name: SelectKV
+  displayName: 'Select KeyVault'
+  type: string
+  default: 'AKV1'
+  values:
+    - 'AKV1'
+    - 'AKV2'
+    - 'AKV3'
+    - 'AKV4'
+- name: Env
+  displayName: 'Select Environment'
+  type: string
+  default: 'dev'
+  values:
+    - 'dev'
+    - 'sit'
+    - 'e2e'
+    - 'pvt'
+    - 'perf'
+    - 'uat'
+    - 'prodfix'
+    - 'prod'
+
+variables:
+- group: bulkupload-login-vg
+- group: bulkupload-common-vg
+- group: bulkupload-${{ parameters.Env }}-vg
+
+steps:
+- task: Bash@3
+  displayName: 'Login'
+  inputs:
+    targetType: 'inline'
+    script: 'az login --service-principal -u $(CLIENTID) -p $(SECRET) --tenant $(TENANTID)'
+
+- task: Bash@3
+  displayName: 'Upload'
+  inputs:
+    targetType: filePath
+    filePath: './utils/bulkUpload/akvBulkUpload.sh'
+  env:
+    vault_name: ${{ parameters.SelectKV }}
+    Value1Variable: $(Value1VariableSetInVG)

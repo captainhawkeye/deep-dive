@@ -1,0 +1,17 @@
+##----- Istio NS for CP-1 -----##
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    istioenv: "01"
+  name: istio-system-01
+---
+
+##----- Istio NS for CP-2 -----##
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    istioenv: "02"
+  name: istio-system-02
+---

@@ -22,3 +22,14 @@ nodes:
   - role: worker
 
 kind create cluster --name <clusterName> --config ./<YAML file>         --->        To create 3 nodes cluster
+
+
+Using Minikube
+---------------
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+minikube start
+
+alias kubectl="minikube kubectl --"

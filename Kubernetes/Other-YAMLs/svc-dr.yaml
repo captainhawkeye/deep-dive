@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: abc-service
+  namespace: dev-01
+spec:
+  host: abc-service
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+    outlierDetection:
+      baseEjectionTime: 20s
+      interval: 10s
+      maxEjectionPercent: 100
+    tls:
+      mode: DISABLE
+  subsets:
+  - name: abc-service
+    labels:
+      version: v1
+---

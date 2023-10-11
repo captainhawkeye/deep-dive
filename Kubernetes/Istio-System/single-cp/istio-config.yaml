@@ -1,0 +1,36 @@
+##----- Istio Sys Config ------##
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-system
+  namespace: istio-system
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        serviceAnnotations:
+          service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    pilot:
+      enabled: true
+      k8s:
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2Gi
+          limits:
+            cpu: 1000m
+            memory: 4Gi
+  meshConfig:
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+    enableAutoMtls: true
+    certificates:
+    - secretName: cert-secret
+      dnsNames: [anuragpoc.com]
+  values:
+    global:
+      mountMtlsCerts: true
+---

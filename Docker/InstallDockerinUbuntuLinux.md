@@ -14,6 +14,6 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 apt-cache madison docker-ce
-sudo apt-get install docker-ce=5:20.10.18~3-0~ubuntu-jammy docker-ce-cli=5:20.10.18~3-0~ubuntu-jammy containerd.io docker-compose-plugin
+sudo apt-get install docker-ce=5:24.0.6-1~ubuntu.22.04~jammy docker-ce-cli=5:24.0.6-1~ubuntu.22.04~jammy containerd.io docker-compose-plugin
 
 sudo service docker start

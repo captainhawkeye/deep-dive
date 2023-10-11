@@ -1,0 +1,43 @@
+##----- Service Account -----##
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dashboard-reader
+  namespace: kubernetes-dashboard
+---
+
+##----- Reader RBAC -----##
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dashboard-reader
+rules:
+- apiGroups: ["*"]
+  resources: ["pods", "pods/log", "namespaces"]
+  verbs: ["get", "list", "watch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dashboard-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dashboard-reader
+subjects:
+  - kind: ServiceAccount
+    name: dashboard-reader
+    namespace: kubernetes-dashboard
+---
+
+##----- Service Account Secret ------##
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: dashboard-reader-token
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/service-account.name: "dashboard-reader"
+---

@@ -1,0 +1,33 @@
+##----- Ingress GW SSL Certs -----##
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: mysecret
+  namespace: istio-system
+data:
+  tls.crt:
+  tls.key:
+---
+
+##----- Ingress GW -----##
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: dev
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*/*..com'
+    - '*/.com'
+    port:
+      name: HTTPS
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: mysecret
+---
