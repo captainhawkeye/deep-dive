@@ -1,0 +1,71 @@
+##----- Ingress GW SSL Certs for CP-1 -----##
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: mysecret-01
+  namespace: istio-system-01
+  labels:
+    istioenv: "01"
+data:
+  tls.crt:
+  tls.key:
+---
+
+##----- Ingress GW SSL Certs for CP-2 -----##
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: mysecret-02
+  namespace: istio-system-02
+  labels:
+    istioenv: "02"
+data:
+  tls.crt:
+  tls.key:
+---
+
+##----- Ingress GW for CP-1-----##
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gateway-01
+  namespace: dev-01
+spec:
+  selector:
+    istio: istio-ingressgateway-01
+  servers:
+  - hosts:
+    - '*/*..com'
+    - '*/.com'
+    port:
+      name: HTTPS
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: mysecret-01
+---
+
+##----- Ingress GW for CP-2-----##
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gateway-02
+  namespace: dev-02
+spec:
+  selector:
+    istio: istio-ingressgateway-02
+  servers:
+  - hosts:
+    - '*/*..com'
+    - '*/.com'
+    port:
+      name: HTTPS
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: mysecret-02
+---

@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: <will be available in kubeconfig file>
+    server: <will be available in kubeconfig file>
+  name: <will be available in kubeconfig file>
+contexts:
+- context:
+    cluster: <will be available in kubeconfig file>
+    user: dashboard-reader
+  name: <will be available in kubeconfig file>
+current-context: <will be available in kubeconfig file>
+kind: Config
+preferences: {}
+users:
+- name: dashboard-reader
+  user:
+    token: <describe service account secret>

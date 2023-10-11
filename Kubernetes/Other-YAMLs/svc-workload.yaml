@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: abc-service
+  namespace: dev-01
+  labels:
+    app: abc-service
+spec:
+  type: ClusterIP
+  selector:
+    app: abc-service
+  ports:
+  - port: <Port>
+    protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: abc-service-v1
+  namespace: dev-01
+  labels:
+    app: abc-service
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abc-service
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: abc-service
+        version: v1
+    spec:
+      containers:
+      - name: abc-service
+        image: <Image>
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        envFrom:
+          - secretRef:
+              name: <kube-secret>
+        ports:
+        - containerPort: <Port>
+      imagePullSecrets:
+      - name: regcred

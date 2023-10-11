@@ -1,0 +1,11 @@
+trigger:
+- none
+
+pool:
+ name: <agentpool>
+
+variables:
+- group: <VG>
+
+steps:
+- task: Kubernetes@1
