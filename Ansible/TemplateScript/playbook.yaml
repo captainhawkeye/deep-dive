@@ -1,0 +1,10 @@
+- hosts: '{{HOST_NAME}}'
+  remote_user: username
+  become: yes
+  become_user: username
+  tasks:
+   - name: Pulling Image from Repo
+     shell: docker pull
+   - name: Task2
+     shell: command
+  
