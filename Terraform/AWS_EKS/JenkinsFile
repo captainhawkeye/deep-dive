@@ -1,0 +1,43 @@
+pipeline{
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: ''
+            }
+        }
+
+        stage('Initialize Terraform') {
+            steps {
+                dir('AWS_EKS') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Validate Terraform') {
+            steps {
+                dir('AWS_EKS') {
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Plan Terraform') {
+            steps {
+                dir('AWS_EKS') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Apply/Destroy Terraform') {
+            steps {
+                dir('AWS_EKS') {
+                    sh 'terraform ${action} --auto-approve'
+                }
+            }
+        }
+    }
+}
